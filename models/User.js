@@ -11,26 +11,42 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "password is required"],
   },
-  forest: {
-    type: forestSchema,
-  },
+  sessions: [sessionSchema],
 });
 
-const sessionSchema = new mongoose.Schema({
-  title: String,
-  time: {
-    type: Number,
-    required: true,
-  },
-  plnat: {
+const treeSchema = new mongoose.Schema({
+  type: {
     type: String,
     required: true,
     default: "",
   },
+  status: {
+    type: String,
+    default: "dead",
+  },
 });
 
-const forest = new mongoose.Schema({
-  sessions: [sessionSchema],
+const sessionSchema = new mongoose.Schema({
+  title: {
+    type: String,
+    required: true,
+  },
+  time: {
+    type: Number,
+    required: true,
+  },
+  tree: {
+    type: treeSchema,
+    required: true,
+  },
+  completed: {
+    type: Boolean,
+    default: false,
+  },
+  date: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 userSchema.methods.validatePassword = async function (password) {
