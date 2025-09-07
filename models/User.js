@@ -58,5 +58,4 @@ const Session = mongoose.model("Session", sessionSchema);
 
 module.exports = {
   User,
-  Session,
 };

@@ -1,4 +1,4 @@
-const User = require("../models/User");
+const { User } = require("../models/User");
 
 //crerate session
 const create = async (req, res) => {
@@ -17,9 +17,16 @@ const create = async (req, res) => {
       date: new Date(),
     };
 
-    user.session.push(newSession);
+    user.sessions.push(newSession);
     await user.save();
 
     res.status(201).json(newSession);
-  } catch (error) {}
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = {
+  create,
 };
