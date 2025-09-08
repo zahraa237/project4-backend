@@ -5,6 +5,7 @@ const cors = require("cors");
 
 const authRoutes = require("./routes/authRoutes");
 const sessionRoutes = require("./routes/sessionRoutes");
+const homeRoutes = require("./routes/homeRoutes");
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(express.json());
 
 app.use("/auth", authRoutes);
 app.use("/session", sessionRoutes);
+app.use("/home", homeRoutes);
 
 //database connection
 mongoose.connect(process.env.DB_URL);

@@ -27,6 +27,33 @@ const create = async (req, res) => {
   }
 };
 
+//getting all sessions
+const getAll = async (req, res) => {
+  try {
+    const user = req.user.id;
+    res.status(200).json({
+      sessions: user.sessions,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+//cancel session
+const cancelSession = async (req, res) => {
+  try {
+    const user = req.user.id;
+    const sessionId = req.params.sessionId;
+    const session = user.sessions.id(sessionId);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   create,
+  getAll,
+  cancelSession,
 };
