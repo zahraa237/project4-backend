@@ -8,9 +8,11 @@ const create = async (req, res) => {
     const userId = req.user.id;
     console.log(userId);
 
+    const startTime = new Date();
+    const endTime = new Date(startTime.getTime() + time * 60000); // time is in minutes
+
     const user = await User.findById(userId);
     if (!user) return res.status(404).json({ message: "User not found" });
-    console.log(user);
 
     const newSession = {
       title,
@@ -18,12 +20,17 @@ const create = async (req, res) => {
       tree: { type: treeType },
       completed: false,
       date: new Date(),
+      startTime,
+      endTime,
     };
 
     user.sessions.push(newSession);
     await user.save();
 
-    res.status(201).json(newSession);
+    //getting the created session id
+    const createdSession = user.sessions[user.sessions.length - 1];
+
+    res.status(201).json({ session: createdSession });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: error.message });

@@ -18,9 +18,16 @@ const sessionSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  startTime: {
+    type: Date,
+    default: Date.now,
+  },
   time: {
     type: Number,
     required: true,
+  },
+  endTime: {
+    type: Date,
   },
   tree: {
     type: treeSchema,
