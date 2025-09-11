@@ -1,3 +1,4 @@
+const { get } = require("mongoose");
 const { User } = require("../models/User");
 
 //crerate session
@@ -5,9 +6,11 @@ const create = async (req, res) => {
   try {
     const { title, time, treeType } = req.body;
     const userId = req.user.id;
+    console.log(userId);
 
     const user = await User.findById(userId);
     if (!user) return res.status(404).json({ message: "User not found" });
+    console.log(user);
 
     const newSession = {
       title,
@@ -52,8 +55,25 @@ const cancelSession = async (req, res) => {
   }
 };
 
+//get one session
+const getOne = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+    console.log("user id: " + user);
+    const sessionId = req.params.sessionId;
+    const session = user.sessions.id(sessionId);
+    res.status(200).json({
+      session,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   create,
   getAll,
   cancelSession,
+  getOne,
 };
